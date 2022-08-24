@@ -1,0 +1,27 @@
+.profile__edit {
+  grid-area: edit;
+  display: flex;
+  align-self: flex-end;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fff;
+  background-image: url(../../../images/icon-pen.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px;
+  margin-left: 18px;
+  transition: opacity .2s ease-in-out;
+}
+
+.profile__edit:hover {
+  opacity: .6;
+}
+
+@media screen and (max-width: 768px) {
+  .profile__edit {
+    width: 18px;
+    height: 18px; 
+    background-size: 7.5px;
+    margin-left: 10px;
+  }
+}

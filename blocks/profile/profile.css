@@ -1,0 +1,26 @@
+.profile {
+  display: grid;
+  grid-template-columns: 120px 1fr 150px;
+  grid-template-rows: repeat(auto-fit, 1fr);
+  grid-template-areas: 
+    "avatar info add";
+  box-sizing: border-box;
+  margin: 0;
+  padding: 40px 0 50px 0;
+  width: 100%;
+  min-height: 120px;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding: 42px 0 36px 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(auto-fit, 1fr);
+    grid-template-areas: 
+      "avatar"
+      "info"
+      "add";
+  }
+}
+  
