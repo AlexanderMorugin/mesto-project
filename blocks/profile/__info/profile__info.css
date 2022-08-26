@@ -8,17 +8,16 @@
   grid-area: info;
   margin: 0;
   padding: 0 0 0 30px;
-  row-gap: 16px;
+  row-gap: 8px;
 }
 
 @media screen and (max-width: 768px) {
   .profile__info {
     grid-template-columns: 13% 1fr 13%;
-    grid-template-rows: repeat(auto-fit, minmax(min-content, max-content));
     grid-template-areas:
     ". title edit"
     "subtitle subtitle subtitle";
-    row-gap: 14px;
-    padding: 26px 0 36px 0;
+    row-gap: 7px;
+    padding: 26px 0 33px 0;
   }
 }
