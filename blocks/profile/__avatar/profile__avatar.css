@@ -5,6 +5,9 @@
   margin: 0 auto;
   padding: 0;
   grid-area: avatar;
-  object-fit: cover;
-  object-position: -18px;
+  /*object-fit: cover;
+  object-position: -18px;*/
+  background-image: url(../../../images/cousteau.jpg);
+  background-position: center center;
+  background-size: 170px;
 }
