@@ -1,4 +1,7 @@
 .elements__item {
+  display: flex;
+  position: relative;
+  flex-direction: column;
   border-radius: 10px;
   width: 100%;
   max-width: 282px;
@@ -9,3 +12,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/*
+.elements__item {
+  display: flex;
+  position: relative;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 282px;
+  max-height: 361px;
+  background-color: #fff;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-size: 100% 282px;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+*/

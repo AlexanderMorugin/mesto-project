@@ -6,7 +6,7 @@
   background-position: center;
   background-color: transparent;
   border: 0;
-  margin: 1px 5px 0 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -15,7 +15,39 @@
   cursor: pointer;
 }
 
+
+
+
+
+
+
+
+
+/*
+.elements__heart {
+  display: flex;
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+  width: 22px;
+  height: 19px;
+  transition: opacity .2s ease-in-out;
+  background-image: url(../../../images/icon-heart.svg);
+  background-position: center;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;  
+}
+/*
+.elements__heart:hover {
+  opacity: .5;
+  cursor: pointer;
+}
+*/
+/*
 .elements__heart:active {
   opacity: 1;
   background-image: url(../../../images/icon-heart-black.svg);
 }
+*/

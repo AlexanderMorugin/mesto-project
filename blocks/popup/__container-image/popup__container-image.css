@@ -1,0 +1,14 @@
+.popup__container-image {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin: auto;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__container-image {
+    padding: 36px 0 0 0;
+  }
+}

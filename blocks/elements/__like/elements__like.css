@@ -3,7 +3,19 @@
   justify-content: space-between;
   align-items: center;
   margin: 0;
+  padding: 25px 15px 30px 21px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+.elements__like {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
   padding: 307px 15px 30px 21px;
   width: 100%;
   box-sizing: border-box;
 }
+*/
