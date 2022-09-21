@@ -84,11 +84,16 @@ function addItem(titleValue, sourceValue) {
   const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true);
 
   itemElement.querySelector('.elements__image').src = sourceValue;
-  itemElement.querySelector('.elements__image').addEventListener('click', openPopupImage);Ы
   itemElement.querySelector('.elements__title').textContent = titleValue;
   itemElement.querySelector('.elements__heart').addEventListener('click', function (evt) {  
     evt.target.classList.toggle('elements__heart_theme_dark');
   });
+  itemElement.querySelector('.elements__image').addEventListener('click', function (fill) {
+    itemPicture.src = sourceValue;
+    itemParagraph.textContent = titleValue;
+    openPopupImage();
+  });
+
   itemElement.querySelector('.elements__trash').addEventListener('click', function() {
     itemElement.remove()
 });
@@ -131,24 +136,35 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
   ];
+  //const popupImage = document.querySelector('.popup_image'); // Находим в DOM модальное окно "Открытие попапа с картинкой"  
+ // const buttonCloseImage = document.querySelector('.close-image'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно"
+  //const itemPicture = document.querySelector('.popup__picture'); // Находим в Модалке картинку
+  //const itemParagraph = document.querySelector('.popup__paragraph'); // Находим в Модалке описание картинки
+
+  //const templateImage = document.querySelector('.elements__image'); // Находим в Template картинку
+  //const templateTitle = document.querySelector('.elements__title'); // Находим в Template название картинки
 
   initialCards.forEach(function array (element) {
-    const itemTemplate = document.querySelector('#item-template').content;
-    const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true);  
+    const itemTemplate = document.querySelector('#item-template').content; // Находим в Template
+    const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true); 
 
-    itemElement.querySelector('.elements__image').src = element.link;
-    itemElement.querySelector('.elements__image').addEventListener('click', openPopupImage);
-    
+    itemElement.querySelector('.elements__image').src = element.link;    
     itemElement.querySelector('.elements__title').textContent = element.name;   
     itemElement.querySelector('.elements__heart').addEventListener('click', function (evt) {  
       evt.target.classList.toggle('elements__heart_theme_dark');
     });
+
+    itemElement.querySelector('.elements__image').addEventListener('click', function (fill) {
+      itemPicture.src = element.link;
+      itemParagraph.textContent = element.name;
+      openPopupImage();
+    });
+
     itemElement.querySelector('.elements__trash').addEventListener('click', function() {
       itemElement.remove()
   });
  
-  elementContainer.prepend(itemElement); 
-  
+  elementContainer.prepend(itemElement);   
 });
  
 
@@ -160,10 +176,7 @@ const buttonCloseImage = document.querySelector('.close-image'); // Находи
 const itemPicture = document.querySelector('.popup__picture'); // Находим в Модалке картинку
 const itemParagraph = document.querySelector('.popup__paragraph'); // Находим в Модалке описание картинки
 
-function openPopupImage() {   
-  //itemPicture.src = picture.src;
-  //itemParagraph.textContent = array.name;
-  
+function openPopupImage() {  
   popupImage.classList.add('popup_opened');
 };
 
