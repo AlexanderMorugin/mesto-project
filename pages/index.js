@@ -1,9 +1,11 @@
 //@ts-check
-/*if (!popup) throw new Error('Ты не прав братан');*/ // Удовстоверяемся в сущности
+/*if (!popup) throw new Error('Ты не прав');*/ // Удовстоверяемся в сущности
 
-/* Модальное окно 'Редактировать профиль' */
+
+/* --- --- --- Модальное окно 'Редактировать профиль' --- --- --- */
 
 const popup = document.querySelector('.popup'); // Находим в DOM модальное окно "Редактировать профиль"
+const editButton = document.querySelector('.profile__edit'); // Находим в DOM кнопку "Редактировать профиль"
 const submitButton = document.querySelector('.form__button'); // Находим в Модалке кнопку "Сохранить профиль"
 const closeButton = document.querySelector('.popup__button-close'); // Находим в Модалке кнопку "Крестик - Закрыть модальное окно"
 
@@ -15,16 +17,12 @@ function closePopup() {
   popup.classList.remove('popup_opened');
 }; // Функция ЗАКРЫТИЯ модального окна "Редактировать профиль", удаляем класс открытия
 
+editButton.addEventListener('click', openPopup); // Активируем кнопку "Редактировать профиль"
 closeButton.addEventListener('click', closePopup); // Активируем Крестик закрывающий модальное окно "Редактировать профиль"
 
 
-/* Профиль пользователя в HTML */
 
-const editButton = document.querySelector('.profile__edit'); // Находим в DOM кнопку "Редактировать профиль"
-editButton.addEventListener('click', openPopup); // Активируем кнопку "Редактировать профиль"
-
-
-/* Вписываем в поля "Имя" и "О себе" */
+/* --- --- --- Вписываем в поля "Имя" и "О себе" --- --- --- */
 
 // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
 function formSubmitHandler (evt) {
@@ -50,8 +48,7 @@ popup.addEventListener('submit', formSubmitHandler); // Активируем М�
 
 
 
-
-// Модальное окно 'Новое место'
+/* --- --- --- Модальное окно 'Новое место' --- --- --- */
 
 const popupPlace = document.querySelector('.place'); // Находим в DOM модальное окно "Новое место"
 const buttonAddPlace = document.querySelector('.profile__add'); // Находим в DOM кнопку Плюс "Добавить новое место"
@@ -71,7 +68,9 @@ buttonAddPlace.addEventListener('click', openPopupPlace); // Активируе�
 buttonClosePlace.addEventListener('click', closePopupPlace); // Активируем кнопку Крестик "Закрыть модальное окно - новое место"
 buttonSubmitPlace.addEventListener('click', closePopupPlace); // Активируем в Модалке кнопку "Создать"
 
-// Добавление карточек
+
+
+/* --- --- --- Добавление карточек пользователем --- --- --- */
 
 const card = elementContainer.querySelector('.elements__item');
 const addButton = document.querySelector('.add-place');
@@ -93,11 +92,9 @@ function addItem(titleValue, sourceValue) {
     itemParagraph.textContent = titleValue;
     openPopupImage();
   });
-
   itemElement.querySelector('.elements__trash').addEventListener('click', function() {
-    itemElement.remove()
+    itemElement.remove();
 });
-
 elementContainer.prepend(itemElement);
 }
 
@@ -108,7 +105,8 @@ addButton.addEventListener('click', function () {
 });
 
 
-// При загрузке на странице должно быть 6 карточек, которые добавит JavaScript
+
+/* --- --- --- Добавление карточек из массива при загрузке сайта, на странице должно быть 6 карточек, которые добавит JavaScript --- --- --- */
 
 const initialCards = [
   {
@@ -136,13 +134,6 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
   ];
-  //const popupImage = document.querySelector('.popup_image'); // Находим в DOM модальное окно "Открытие попапа с картинкой"  
- // const buttonCloseImage = document.querySelector('.close-image'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно"
-  //const itemPicture = document.querySelector('.popup__picture'); // Находим в Модалке картинку
-  //const itemParagraph = document.querySelector('.popup__paragraph'); // Находим в Модалке описание картинки
-
-  //const templateImage = document.querySelector('.elements__image'); // Находим в Template картинку
-  //const templateTitle = document.querySelector('.elements__title'); // Находим в Template название картинки
 
   initialCards.forEach(function array (element) {
     const itemTemplate = document.querySelector('#item-template').content; // Находим в Template
@@ -153,22 +144,19 @@ const initialCards = [
     itemElement.querySelector('.elements__heart').addEventListener('click', function (evt) {  
       evt.target.classList.toggle('elements__heart_theme_dark');
     });
-
     itemElement.querySelector('.elements__image').addEventListener('click', function (fill) {
       itemPicture.src = element.link;
       itemParagraph.textContent = element.name;
       openPopupImage();
     });
-
     itemElement.querySelector('.elements__trash').addEventListener('click', function() {
       itemElement.remove()
-  });
- 
+  }); 
   elementContainer.prepend(itemElement);   
 });
  
 
-// Модальное окно 'Открытие попапа с картинкой'
+/* --- --- --- Модальное окно 'Открытие попапа с картинкой' --- --- --- */
 
 const popupImage = document.querySelector('.popup_image'); // Находим в DOM модальное окно "Открытие попапа с картинкой"
 const buttonOpenImage = document.querySelector('.elements__image'); // Находим в DOM картинку, при нажатии которой открывается модальное окно "Открытие попапа с картинкой"
@@ -184,9 +172,4 @@ function closePopupImage() {
   popupImage.classList.remove('popup_opened');
 };
 
-// buttonOpenImage.addEventListener('click', openPopupImage); // Активируем картинку, при нажатии которой открывается модальное окно "Открытие попапа с картинкой"
 buttonCloseImage.addEventListener('click', closePopupImage); // Активируем кнопку Крестик "Закрыть модальное окно"
-
-
-
-
