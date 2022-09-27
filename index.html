@@ -8,6 +8,7 @@
   <meta name="keywords" content="html, css, javascript">
   <title>Место</title>
   <link rel="stylesheet" type="text/css" href="./pages/index.css">
+  <script type="text/javascript" src="./pages/data.js" defer></script>
   <script type="text/javascript" src="./pages/index.js" defer></script>
 </head>
 <body class="page">
@@ -32,10 +33,10 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <!-- Модальное окно - Редактировать профиль -->
-  <div class="popup">
+<!-- Модальное окно - Редактировать профиль -->
+  <div class="popup profile-open">
     <div class="popup__container">
-      <button type="button" class="popup__button-close" aria-label="Закрыть диалоговое окно."></button>
+      <button type="button" class="popup__button-close profile-close" aria-label="Закрыть диалоговое окно."></button>
       <form class="form" name="profile" method="POST">
         <h2 class="form__heading">Редактировать профиль</h2>  
         <fieldset class="form__input-container">            
@@ -47,19 +48,19 @@
     </div>
   </div>
   <!-- Модальное окно - Новое место -->  
-  <div class="popup place">
+  <div class="popup place-open">
     <div class="popup__container">
-      <button type="button" class="popup__button-close close-place" aria-label="Закрыть диалоговое окно."></button>
+      <button type="button" class="popup__button-close place-close" aria-label="Закрыть диалоговое окно."></button>
       <form class="form" name="add new place" method="POST">
         <h2 class="form__heading">Новое место</h2>  
         <fieldset class="form__input-container">            
           <input type="text" class="form__item form__item_type_title" id="title" name="title" placeholder="Название" required>          
           <input type="text" class="form__item form__item_type_source" id="source" name="source " placeholder="Ссылка на картинку" required>
         </fieldset>
-        <input type="submit" class="form__button add-place" value="Создать">                 
+        <button type="submit" class="form__button place-add" aria-label="Создать новое место.">Создать</button>                 
       </form>    
     </div>
-  </div>     
+  </div>
   <!-- Модальное окно - Открытие попапа с картинкой -->
   <div class="popup popup_image">
     <div class="popup__container-image">
