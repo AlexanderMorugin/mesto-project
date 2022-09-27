@@ -72,8 +72,8 @@ function addItem(link, name) { // Функция создания карточк
     evt.target.classList.toggle('elements__heart_theme_dark');
   });
   itemElement.querySelector('.elements__image').addEventListener('click', () => {
-    itemPicture.src = sourceValue;
-    itemParagraph.textContent = titleValue;
+    itemPicture.src = link;
+    itemParagraph.textContent = name;
     openPopupImage();
   });
   itemElement.querySelector('.elements__trash').addEventListener('click', () => {
