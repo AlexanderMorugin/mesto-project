@@ -5,11 +5,10 @@
 // --- Переменные --- Модальное окно "Редактировать профиль" --- //
 
 const popup = document.querySelector('.popup'); // Находим в DOM универсальный класс для всех модальных окон
-
-const profilePopup = document.querySelector('.profile-open'); // Находим в DOM модальное окно "Редактировать профиль"
+const profilePopup = document.querySelector('.popup_profile_open'); // Находим в DOM модальное окно "Редактировать профиль"
 const profileEdit = document.querySelector('.profile__edit'); // Находим в DOM кнопку "Редактировать профиль"
 const profileSubmit = document.querySelector('.form__button'); // Находим в Модалке кнопку "Сохранить профиль"
-const profileClose = document.querySelector('.profile-close'); // Находим в Модалке кнопку "Крестик - Закрыть модальное окно"
+const profileClose = document.querySelector('.popup_profile_close'); // Находим в Модалке кнопку "Крестик - Закрыть модальное окно"
 const nameInput = document.querySelector('.form__item_type_name'); // Находим в Модалке поле формы "Имя"
 const jobInput = document.querySelector('.form__item_type_description'); // Находим в Модалке поле формы "О себе"
 const profileTitle = document.querySelector('.profile__title'); // Находим в DOM поле профиля "Жак-Ив Кусто"
@@ -17,10 +16,10 @@ const profileSubtitle = document.querySelector('.profile__subtitle'); // Нах�
 
 // --- Переменные --- Модальное окно "Новое место" --- //
 
-const placePopup = document.querySelector('.place-open'); // Находим в DOM модальное окно "Новое место"
+const placePopup = document.querySelector('.popup_place_open'); // Находим в DOM модальное окно "Новое место"
 const placeAdd = document.querySelector('.profile__add'); // Находим в DOM кнопку Плюс "Добавить новое место"
-const placeClose = document.querySelector('.place-close'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно - новое место"
-const addButton = document.querySelector('.place-add'); // Находим в Модалке кнопку "Создать"
+const placeClose = document.querySelector('.popup_place_close'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно - новое место"
+const addButton = document.querySelector('.popup_place_add'); // Находим в Модалке кнопку "Создать"
 const elementContainer = document.querySelector('.elements'); // Находим в DOM контейнер карточек           
 const resetButton = document.querySelector('.elements__trash'); // Кнопка "Удалить" в Template
 const templateImage = document.querySelector('.elements__image'); // Картинка в Template
@@ -31,9 +30,8 @@ const itemTemplate = document.querySelector('#item-template').content; // Templa
 
 // --- Переменные --- Модальное окно 'Открытие попапа с картинкой' --- //
 
-const popupImage = document.querySelector('.popup_image'); // Находим в DOM модальное окно "Открытие попапа с картинкой"
-const buttonOpenImage = document.querySelector('.elements__image'); // Находим в DOM картинку, при нажатии которой открывается модальное окно "Открытие попапа с картинкой"
-const buttonCloseImage = document.querySelector('.close-image'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно"
+const imagePopup = document.querySelector('.popup_image_open'); // Находим в DOM модальное окно "Открытие попапа с картинкой"
+const imagePopupClose = document.querySelector('.popup_image_close'); // Находим в Модалке кнопку Крестик "Закрыть модальное окно"
 const itemPicture = document.querySelector('.popup__picture'); // Находим в Модалке картинку
 const itemParagraph = document.querySelector('.popup__paragraph'); // Находим в Модалке описание картинки
 
@@ -53,11 +51,9 @@ function closePopup(popup) { // Универсальная функция ЗАК
 // --- Функции --- Модальное окно "Редактировать профиль" --- //
 
 function submitForm(evt) { // Обработчик «отправки» формы, хотя пока она никуда отправляться не будет
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. Так мы можем определить свою логику отправки. О том, как это делать, расскажем позже.
-  
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы. Так мы можем определить свою логику отправки. О том, как это делать, расскажем позже.  
   profileTitle.textContent = nameInput.value; // Вставляем текст из Модалки в разметку HTML
   profileSubtitle.textContent = jobInput.value; // Вставляем текст из Модалки в разметку HTML
-
   closePopup(profilePopup); // Вызываем функцию закрытия Модалки, при нажатии кнопки "Сохранить"
 };
 
@@ -67,29 +63,21 @@ function addItem(link, name) { // Функция создания карточк
   const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true); 
 
   itemElement.querySelector('.elements__image').src = link;
-  itemElement.querySelector('.elements__title').textContent = name; 
+  itemElement.querySelector('.elements__title').textContent = name;
+  itemElement.querySelector('.elements__image').alt = name;
   itemElement.querySelector('.elements__heart').addEventListener('click', (evt) => {
     evt.target.classList.toggle('elements__heart_theme_dark');
   });
   itemElement.querySelector('.elements__image').addEventListener('click', () => {
     itemPicture.src = link;
+    itemPicture.alt = name;
     itemParagraph.textContent = name;
-    openPopupImage();
+    openPopup(imagePopup);
   });
   itemElement.querySelector('.elements__trash').addEventListener('click', () => {
     itemElement.remove();
   });
   return itemElement;
-  };
-
-  // --- Функции --- Модальное окно "Просмотр картинки" --- //
-
-  function openPopupImage() {  
-    popupImage.classList.add('popup_opened');
-  };
-  
-  function closePopupImage() {
-    popupImage.classList.remove('popup_opened');
   };
 
 
@@ -126,13 +114,15 @@ addButton.addEventListener('click', () => { // Активируем в Мода�
 
 addButton.addEventListener('click', () => { // Активируем в DOM кнопку "Добавить новое место"
   elementContainer.prepend(addItem(sourceInput.value, titleInput.value));
-  source.value = '';
-  title.value = '';
+  sourceInput.value = '';
+  titleInput.value = '';
 });
 
 // --- Слушатели событий --- Модальное окно "Просмотр картинки" --- //
 
-buttonCloseImage.addEventListener('click', closePopupImage); // Активируем кнопку Крестик "Закрыть модальное окно"
+imagePopupClose.addEventListener('click', () => { // Активируем кнопку Крестик "Закрыть модальное окно"
+  closePopup(imagePopup);
+});
 
 
 /* --- --- --- --- --- --- вызов функций и запуск циклов которые должны стартовать во время загрузки страницы --- --- --- --- --- --- */
