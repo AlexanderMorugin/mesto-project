@@ -1,3 +1,5 @@
+import '../pages/index.css';
+
 import {
   initialCards
 } from './data.js';
@@ -16,7 +18,7 @@ import {
 
 
 import {
-  showError, hideError, checkInputValidity, setEventListeners, hasInvalidInput, toggleButtonState
+  showError, hideError, checkInputValidity, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation
 } from './validate.js';
 
 import {
@@ -29,16 +31,3 @@ import {
 initialCards.forEach((element) => {
   elementContainer.append(addItem(element.link, element.name));
 });
-
-//  S T A R T     O F     V A L I D A T I O N
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.form'));  
-  formList.forEach((formElement) => {
-  formElement.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-  });
-    setEventListeners(formElement);
-}); 
-};
-
-enableValidation();
