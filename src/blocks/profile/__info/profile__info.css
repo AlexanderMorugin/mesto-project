@@ -12,11 +12,13 @@
 
 @media screen and (max-width: 768px) {
   .profile__info {
-    grid-template-columns: 13% 1fr 13%;
+    grid-template-columns: 1fr 13%;
     grid-template-areas:
-    ". title edit"
-    "subtitle subtitle subtitle";
+    "title edit"
+    "subtitle subtitle";
     row-gap: 7px;
+    max-width: 350px;
+    margin: 0 auto;
     padding: 26px 0 33px 0;
   }
 }

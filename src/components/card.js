@@ -1,4 +1,4 @@
-import { addButton, openPopup, imagePopup } from './modal.js';
+import { openPopup, imagePopup } from './modal.js';
 
 // ===================================================================================================
 
@@ -12,6 +12,8 @@ const sourceInput = document.querySelector('.form__input_type_source');
 const itemTemplate = document.querySelector('#item-template').content;
 const itemPicture = document.querySelector('.popup__picture');
 const itemParagraph = document.querySelector('.popup__paragraph');
+// added after review 1
+const formPlace = document.querySelector('.form__place');
 
 // ===================================================================================================
 
@@ -40,15 +42,16 @@ function addItem(link, name) { // Функция создания карточк
 // ===================================================================================================
 
 //  E V E N T     L I S T E N E R S     C A R D
-  addButton.addEventListener('click', () => {
-    elementContainer.prepend(addItem(sourceInput.value, titleInput.value));
-    sourceInput.value = '';
-    titleInput.value = '';
-  });
+// added after review 1
+formPlace.addEventListener('submit', () => {
+  elementContainer.prepend(addItem(sourceInput.value, titleInput.value));
+  sourceInput.value = '';
+  titleInput.value = '';
+});
 
-  // ===================================================================================================
+// ===================================================================================================
 
-  export {
-    elementContainer, templateImage, resetButton, templateTitle, titleInput, sourceInput, itemTemplate, itemPicture, itemParagraph,
-    addItem
-  };
+export {
+  elementContainer, templateImage, resetButton, templateTitle, titleInput, sourceInput, itemTemplate, itemPicture, itemParagraph,
+  addItem
+};
