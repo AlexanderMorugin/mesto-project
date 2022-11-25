@@ -26,7 +26,8 @@ function closeByEscape(evt) {
     closePopup(imagePopup);
   }
 }
-document.addEventListener('keydown', closeByEscape);
+// added after review 2
+//document.addEventListener('keydown', closeByEscape);
 
 // ===================================================================================================
 

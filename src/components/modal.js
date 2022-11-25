@@ -52,9 +52,9 @@ function submitForm(evt) {
 //  E V E N T     L I S T E N E R S     P R O F I L E
 profileEdit.addEventListener('click', () => {
   openPopup(profilePopup);
-  // added after review 1
-  userInput.value = 'Жак-Ив Кусто';
-  descriptionInput.value = 'Исследователь океана'; 
+  // added after review 2
+  userInput.value = profileTitle.textContent;
+  descriptionInput.value = profileSubtitle.textContent; 
 });
 
 profileClose.addEventListener('click', () => {
@@ -75,12 +75,12 @@ placeAdd.addEventListener('click', () => {
 placeClose.addEventListener('click', () => {
   closePopup(placePopup);
 });
-
+/*
 // added after review 1
 formPlace.addEventListener('submit', () => {
   closePopup(placePopup);
 });
-
+*/
 //  E V E N T     L I S T E N E R S     I M A G E
 imagePopupClose.addEventListener('click', () => {
   closePopup(imagePopup);
