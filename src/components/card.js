@@ -1,4 +1,4 @@
-import { openPopup, imagePopup } from './modal.js';
+import { openPopup, closePopup, imagePopup, placePopup } from './modal.js';
 
 // ===================================================================================================
 
@@ -47,6 +47,8 @@ formPlace.addEventListener('submit', () => {
   elementContainer.prepend(addItem(sourceInput.value, titleInput.value));
   sourceInput.value = '';
   titleInput.value = '';
+  // added after review 2
+  closePopup(placePopup);  
 });
 
 // ===================================================================================================
