@@ -1,4 +1,4 @@
-import cousteau from './images/cousteau.jpg';
+//import cousteau from './images/cousteau.jpg';
 import iconClose from './images/icon-close.svg';
 import iconHeartBlack from './images/bryant.jpg';
 import iconHeart from './images/icon-heart.svg';
@@ -8,7 +8,7 @@ import iconTrash from './images/icon-trash.svg';
 import logo from './images/logo.svg';
 
 const image = [
-  { name: 'cousteau', image: cousteau },
+  //{ name: 'cousteau', image: cousteau },
   { name: 'icon-close', link: iconClose },
   { name: 'icon-heart-black', link: iconHeartBlack },
   { name: 'icon-heart', link: iconHeart },

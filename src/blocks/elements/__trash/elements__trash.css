@@ -1,5 +1,5 @@
 .elements__trash {
-  display: flex;
+  display: none;
   position: absolute;
   top: 20px;
   right: 20px;
@@ -11,9 +11,12 @@
   background-position: center;
   background-repeat: no-repeat;
   transition: opacity .2s ease-in-out;
+  cursor: pointer;
+  /*
+  opacity: 1;
+  */
 }
 
 .elements__trash:hover {
-  opacity: .6;
-  cursor: pointer;
+  opacity: .6;  
 }
