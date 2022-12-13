@@ -1,0 +1,5 @@
+.form__sure {
+  display: flex;
+  flex-direction: column;
+  gap: 29px;
+}
