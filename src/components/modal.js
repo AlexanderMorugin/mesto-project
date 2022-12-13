@@ -1,8 +1,5 @@
 import { closeByEscape } from './utils.js';
 import { config } from './api.js';
-//import { formPlace } from './card.js';
-
-
 
 //  V A R I A B L E S     P R O F I L E
 export const profileTitle = document.querySelector('.profile__title');
@@ -10,9 +7,6 @@ export const profileSubtitle = document.querySelector('.profile__subtitle');
 export const profilePopup = document.querySelector('.popup_profile_open');
 export const profileEdit = document.querySelector('.profile__edit');
 export const profileClose = document.querySelector('.popup_profile_close');
-//export const userInput = document.querySelector('.form__input_type_user');
-//export const descriptionInput = document.querySelector('.form__input_type_description');
-//export const formProfile = document.querySelector('.form__profile');
 export const formProfile = document.forms.profile;
 export const userInput = formProfile.elements.user;
 export const descriptionInput = formProfile.elements.description;
@@ -22,8 +16,6 @@ export const placePopup = document.querySelector('.popup_place_open');
 export const placeAdd = document.querySelector('.profile__add');
 export const placeClose = document.querySelector('.popup_place_close');
 export const formButtonPlace = document.querySelector('.form__button_place');
-//export const formPlace = document.querySelector('.form__place');
-//export const formPlace = document.forms.place;
 
 //  V A R I A B L E S     I M A G E
 export const imagePopup = document.querySelector('.popup_image_open');
@@ -35,8 +27,6 @@ export const avatarImage = document.querySelector('.profile__avatar-image');
 export const avatarPopup = document.querySelector('.popup_avatar_open');
 export const formButtonAvatar = document.querySelector('.form__button_avatar');
 export const avatarPopupClose = document.querySelector('.popup_avatar_close');
-//export const formAvatar = document.querySelector('.form__avatar');
-//export const sourceAvatar = document.querySelector('.form__input_type_source-avatar');
 export const formAvatar = document.forms.avatar;
 export const sourceAvatar = formAvatar.elements.srcavatar;
 
@@ -54,17 +44,9 @@ export function closePopup(popup) {
   document.removeEventListener('keydown', closeByEscape);
 };
 
+// ===================================================================================================
+
 //  F U N C T I O N S     P R O F I L E
-/* Так функция выглядела до Fetch
-
-export function submitForm(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = userInput.value;
-  profileSubtitle.textContent = descriptionInput.value;
-  closePopup(profilePopup);
-};
-*/
-
 export function submitForm(evt) {
   evt.preventDefault();
   profileLoading(true);
@@ -81,9 +63,10 @@ export function submitForm(evt) {
   })
   .then(res => {
     if (res.ok) {
-      return res.json();
-    }
-  })
+    return res.json();
+    }    
+    return Promise.reject(`Ошибка: ${res.status}`);  // если ошибка, отклоняем промис
+  }) 
   .then((result) => {
     console.log(result);
     profileTitle.textContent = result.name,
@@ -105,18 +88,12 @@ function profileLoading(isLoading) {
   }
 }
 
+// ===================================================================================================
+
 //  F U N C T I O N S     A V A T A R
-/* Так функция выглядела до Fetch
-
-export function changeAvatarImg() {
-  avatarImage.src = sourceAvatar.value;
-  closePopup(avatarPopup);
-};
-*/
-
 export function changeAvatarImg() {
   avatarLoading(true);
-  fetch(`${config.baseUrl}/users/me/avatar`, { // Отправили изменения на сервер данных аватара пользователя и вставили в DOM
+  return fetch(`${config.baseUrl}/users/me/avatar`, { // Отправили изменения на сервер данных аватара пользователя и вставили в DOM
     method: 'PATCH',
     headers: {
       authorization: config.headers.authorization,
@@ -128,17 +105,19 @@ export function changeAvatarImg() {
   })
   .then(res => {
     if (res.ok) {
-      return res.json();
-    }
-  })
+    return res.json();
+    }    
+    return Promise.reject(`Ошибка: ${res.status}`);  // если ошибка, отклоняем промис
+  })    
   .then((result) => {
     console.log(result);
     avatarImage.src = result.avatar
+    closePopup(avatarPopup);
   })
   .catch((err) => {
     console.error(err); // выводим ошибку в консоль
   })
-  closePopup(avatarPopup);
+  
 };
 
 
@@ -176,18 +155,6 @@ placeAdd.addEventListener('click', () => {
 placeClose.addEventListener('click', () => {
   closePopup(placePopup);
 });
-
-/*
-//  E V E N T     L I S T E N E R S     S U R E
-sureClose.addEventListener('click', () => {
-  closePopup(surePopup);
-});
-
-formButtonSure.addEventListener('click', () => {
-  itemElement.remove();
-  closePopup(surePopup);
-});
-*/
 
 //  E V E N T     L I S T E N E R S     I M A G E
 imagePopupClose.addEventListener('click', () => {
