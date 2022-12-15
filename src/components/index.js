@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { closeByEscape } from './utils.js';
-import { config, changeProfile, getCurrentUser, getInitialCards, removeCard } from './api.js';
+import { config, changeProfile, getCurrentUser, getInitialCards, checkResponse, removeCard } from './api.js';
 
 import {
   profileTitle, profileSubtitle, profilePopup, profileEdit, profileClose, nameInput, jobInput, 
@@ -26,32 +26,16 @@ enableValidation({
 
 
 //  C R E A T E     C A R D S     A T     S T A R T
-Promise.all([  
-  getCurrentUser(),
-  getInitialCards()
-])
+export let cardId, userMeId, cardOwnerId; 
 
-
-// Универсальная функция удаления карточки
-
-// export function deleteCard() {  
-//   fetch(`${config.baseUrl}/cards/6394ef3d7e711d1cc8ecf51b`, {
-//     method:'DELETE',
-//     headers: {
-//       authorization: config.headers.authorization,
-//       'Content-Type': 'application/json'
-//     }    
-//   })
-//   .then(res => {
-//     if (res.ok) {
-//       return res.json();
-//     }
-//   })
-//   .then((result) => {
-//     console.log(result)
-//   })
-//   .catch((err) => {
-//     console.error(err); // выводим ошибку в консоль
-//   })
-// }
-// deleteCard();
+  Promise.all([getInitialCards(), getCurrentUser()])
+    .then(([cards, user]) => { 
+      userMeId = user._id; 
+      
+      cards.forEach((card) => {
+        elementContainer.append(addItem(card.link, card.name))
+        cardId = card._id;
+        cardOwnerId = card.owner._id;
+        console.log(card)
+      });
+    });

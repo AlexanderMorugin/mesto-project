@@ -1,5 +1,7 @@
 import { openPopup, closePopup, imagePopup, placePopup } from './modal.js';
-import { config, getCurrentUser, getInitialCards, currentCard, currentCardId, currentCardOwnerId, currentUserId, removeCard, putLike, deleteLike } from './api.js';
+import { config, removeCard, putLike, deleteLike, addCard } from './api.js';
+
+import { cardId, userMeId, cardOwnerId } from './index.js';
 
 // ===================================================================================================
 
@@ -23,101 +25,113 @@ export const formSure = document.forms.sure;
 export function addItem(link, name) { // Функция создания карточки
   const itemTemplate = document.querySelector('#item-template').content;  
   const itemElement = itemTemplate.querySelector('.elements__item').cloneNode(true); 
-  const itemPicture = document.querySelector('.popup__picture');
-  const itemParagraph = document.querySelector('.popup__paragraph');
+  const cardImage = itemElement.querySelector('.elements__image');
+  const cardImageText = itemElement.querySelector('.elements__title');
   const trashButton = itemElement.querySelector('.elements__trash');
-  const likesCount = itemElement.querySelector('.elements__heart-count');
   const likeButton = itemElement.querySelector('.elements__heart');
-  let likesArr = 1;
+  const likesCount = itemElement.querySelector('.elements__heart-count');
+  const picPopup = document.querySelector('.popup__picture');
+  const picTextPopup = document.querySelector('.popup__paragraph');
 
-  itemElement.querySelector('.elements__image').src = link;
-  itemElement.querySelector('.elements__title').textContent = name;
-  itemElement.querySelector('.elements__image').alt = name;
+  itemElement.dataset.id = cardId;
 
-  itemElement.querySelector('.elements__heart').addEventListener('click', (evt) => {
+  const currentId = itemElement.dataset.id
+  console.log('ID карточки из атрибута data-id -', currentId)
+
+  cardImage.src = link;
+  cardImageText.textContent = name;
+  cardImage.alt = name;
+
+  let likes = 0;
+
+  likeButton.addEventListener('click', (evt) => {
     evt.target.classList.toggle('elements__heart_theme_dark'); 
     if (likeButton.classList.contains('elements__heart_theme_dark')) {
-      likesCount.textContent = likesArr++; 
-      putLike(); 
+      likesCount.textContent = likes++; 
+      putLike()
+         
     } 
     if (!likeButton.classList.contains('elements__heart_theme_dark')) {
-      likesCount.textContent = likesArr--;  
+      likesCount.textContent = likes--;  
       deleteLike();
     } 
   });
 
-  itemElement.querySelector('.elements__image').addEventListener('click', () => {
-    itemPicture.src = link;
-    itemPicture.alt = name;
-    itemParagraph.textContent = name;
+  cardImage.addEventListener('click', () => {
+    picPopup.src = link;
+    picPopup.alt = name;
+    picTextPopup.textContent = name;
     openPopup(imagePopup);
   });
- 
-  if (currentCardOwnerId == currentUserId) {
-    trashButton.classList.add('elements__trash_active');
-    // console.log('ID совпадают')   
-  } else {
-    // console.error('ID не совпадают')
-  }
+   
+  if (cardOwnerId === userMeId) {
+    console.log('СОВПАДЕНИЕ:', 'cardOwnerId -',cardOwnerId, '/// userMeId -',userMeId);
+    trashButton.classList.add('elements__trash_active'); 
+    } else {
+      console.error('НЕ МОЯ КАРТОЧКА:', 'cardOwnerId -',cardOwnerId, '/// userMeId -',userMeId)
+    } 
 
-  itemElement.querySelector('.elements__trash').addEventListener('click', () => { 
-    openPopup(surePopup);
-    sureClose.addEventListener('click', () => {
-      closePopup(surePopup);
-    });
-    formButtonSure.addEventListener('click', () => {
-      removeCard();
-      itemElement.remove();
-      closePopup(surePopup);
-    });      
-  }); 
+  trashButton.addEventListener('click', () => { 
+    // evt.target.closest('.elements__item').remove();
+    itemElement.remove();
+    removeCard(currentId)
+      .catch((err) => {
+        console.error(err);
+      })
+      console.log(cardId) 
+  });
+  
+  // itemElement.querySelector('.elements__trash').addEventListener('click', () => { 
+  //   openPopup(surePopup);
+  //   sureClose.addEventListener('click', () => {
+  //     closePopup(surePopup);
+  //   });
+  //   formButtonSure.addEventListener('click', () => {
+  //     cardDeleting(true);
+  //     removeCard()
+  //       .catch((err) => {
+  //         console.error(err);
+  //       })
+  //       .finally(() => formButtonSure.textContent = 'Да')
+  //     itemElement.remove();
+  //     closePopup(surePopup);
+  //   });      
+  // });
   return itemElement;
 };
+
+
+
+
 
 function cardLoading(isLoading) {
   if (isLoading) {
     formButtonPlace.textContent = 'Создание...';
-  } else {
-    formButtonPlace.textContent = 'Создать';
   }
 }
 
-
+// function cardDeleting(isDeleting) {
+//   if (isDeleting) {
+//     formButtonSure.textContent = 'Удаление...';
+//   }
+// }
 
 // ===================================================================================================
 
 //  E V E N T     L I S T E N E R S     C A R D
 formPlace.addEventListener('submit', function newPlace() {
   cardLoading(true);
-  return fetch(`${config.baseUrl}/cards`, { // Добавление новой карточки на сервер и вставка в DOM
-    method: 'POST',
-    headers: {
-      authorization: config.headers.authorization,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: titleInput.value,
-      link: sourceInput.value
+  addCard()
+    .then((result) => {
+      console.log(result);
+      titleInput.value = result.name,
+      sourceInput.value = result.link,
+      elementContainer.prepend(addItem(sourceInput.value, titleInput.value)),
+      formPlace.reset();
+      closePopup(placePopup);    
     })
-  })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then((result) => {
-    console.log(result);
-    titleInput.value = result.name,
-    sourceInput.value = result.link,
-    elementContainer.prepend(addItem(sourceInput.value, titleInput.value)),
-    formPlace.reset();
-    closePopup(placePopup);    
-  })
-  .catch((err) => {
-    console.error(err); // выводим ошибку в консоль
-  })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => formButtonPlace.textContent = 'Создать')
 })
-
-
-
-
