@@ -1,5 +1,5 @@
 import { closeByEscape } from './utils.js';
-import { config } from './api.js';
+import { config, editCurrentUser, editCurrentAvatar } from './api.js';
 
 //  V A R I A B L E S     P R O F I L E
 export const profileTitle = document.querySelector('.profile__title');
@@ -10,6 +10,7 @@ export const profileClose = document.querySelector('.popup_profile_close');
 export const formProfile = document.forms.profile;
 export const userInput = formProfile.elements.user;
 export const descriptionInput = formProfile.elements.description;
+export const formButtonProfile = document.querySelector('.form__button_profile')
 
 //  V A R I A B L E S     P L A C E
 export const placePopup = document.querySelector('.popup_place_open');
@@ -50,41 +51,22 @@ export function closePopup(popup) {
 export function submitForm(evt) {
   evt.preventDefault();
   profileLoading(true);
-  return fetch(`${config.baseUrl}/users/me`, { // Отправили изменения на сервер данных профиля пользователя (имя, о себе) и вставили в DOM
-    method: 'PATCH',
-    headers: {
-      authorization: config.headers.authorization,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: userInput.value,
-      about: descriptionInput.value,
+  editCurrentUser()
+    .then((result) => {
+      console.log(result);
+      profileTitle.textContent = result.name,
+      profileSubtitle.textContent = result.about
+      closePopup(profilePopup);
     })
-  })
-  .then(res => {
-    if (res.ok) {
-    return res.json();
-    }    
-    return Promise.reject(`Ошибка: ${res.status}`);  // если ошибка, отклоняем промис
-  }) 
-  .then((result) => {
-    console.log(result);
-    profileTitle.textContent = result.name,
-    profileSubtitle.textContent = result.about
-    closePopup(profilePopup);
-  })
   .catch((err) => {
     console.error(err); // выводим ошибку в консоль
-  })  
+  })
+  .finally(() => formButtonProfile.textContent = 'Сохранить')
 }
-
-export const formButtonProfile = document.querySelector('.form__button_profile')
 
 function profileLoading(isLoading) {
   if (isLoading) {
     formButtonProfile.textContent = 'Сохранение...';
-  } else {
-    formButtonProfile.textContent = 'Сохранить';
   }
 }
 
@@ -93,40 +75,21 @@ function profileLoading(isLoading) {
 //  F U N C T I O N S     A V A T A R
 export function changeAvatarImg() {
   avatarLoading(true);
-  return fetch(`${config.baseUrl}/users/me/avatar`, { // Отправили изменения на сервер данных аватара пользователя и вставили в DOM
-    method: 'PATCH',
-    headers: {
-      authorization: config.headers.authorization,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      avatar: sourceAvatar.value
+  editCurrentAvatar()
+    .then((result) => {
+      console.log(result);
+      avatarImage.src = result.avatar
+      closePopup(avatarPopup);
     })
-  })
-  .then(res => {
-    if (res.ok) {
-    return res.json();
-    }    
-    return Promise.reject(`Ошибка: ${res.status}`);  // если ошибка, отклоняем промис
-  })    
-  .then((result) => {
-    console.log(result);
-    avatarImage.src = result.avatar
-    closePopup(avatarPopup);
-  })
-  .catch((err) => {
-    console.error(err); // выводим ошибку в консоль
-  })
-  
-};
-
-
+    .catch((err) => {
+      console.error(err); // выводим ошибку в консоль
+    })
+    .finally(() => formButtonAvatar.textContent = 'Сохранить')
+}
 
 function avatarLoading(isLoading) {
   if (isLoading) {
     formButtonAvatar.textContent = 'Сохранение...';
-  } else {
-    formButtonAvatar.textContent = 'Сохранить';
   }
 }
 
