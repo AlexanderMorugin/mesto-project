@@ -1,6 +1,6 @@
 import '../pages/index.css';
-import { closeByEscape } from './utils.js';
-import { config, changeProfile, getCurrentUser, getInitialCards, checkResponse, removeCard } from './api.js';
+import { closeByEscape, checkResponse } from './utils.js';
+import { config, changeProfile, getCurrentUser, getInitialCards, removeCard } from './api.js';
 
 import {
   profileTitle, profileSubtitle, profilePopup, profileEdit, profileClose, nameInput, jobInput, 
@@ -26,16 +26,22 @@ enableValidation({
 
 
 //  C R E A T E     C A R D S     A T     S T A R T
-export let cardId, userMeId, cardOwnerId; 
+export let cardId, userMeId, cardOwnerId, avatar, cardLikesLength; 
 
-  Promise.all([getInitialCards(), getCurrentUser()])
+  Promise.all([getInitialCards(checkResponse), getCurrentUser(checkResponse)])
     .then(([cards, user]) => { 
       userMeId = user._id; 
-      
+      console.log(user)
+      profileTitle.textContent = user.name;
+      profileSubtitle.textContent = user.about;
+
+      avatarImage.src = user.avatar;
+
       cards.forEach((card) => {
         elementContainer.append(addItem(card.link, card.name))
         cardId = card._id;
         cardOwnerId = card.owner._id;
+        cardLikesLength = card.likes.length;
         console.log(card)
       });
     });

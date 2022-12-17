@@ -1,7 +1,7 @@
 import { openPopup, closePopup, imagePopup, placePopup } from './modal.js';
 import { config, removeCard, putLike, deleteLike, addCard } from './api.js';
-
-import { cardId, userMeId, cardOwnerId } from './index.js';
+import { checkResponse, cardLoading } from './utils.js';
+import { cardId, userMeId, cardOwnerId, cardLikesLength } from './index.js';
 
 // ===================================================================================================
 
@@ -36,25 +36,40 @@ export function addItem(link, name) { // Функция создания кар�
   itemElement.dataset.id = cardId;
 
   const currentId = itemElement.dataset.id
-  console.log('ID карточки из атрибута data-id -', currentId)
 
   cardImage.src = link;
   cardImageText.textContent = name;
   cardImage.alt = name;
 
-  let likes = 0;
+  let likes = 1;
+
+  if (cardLikesLength !== 0) {
+    likeButton.classList.add('elements__heart_theme_dark')
+    likesCount.textContent = cardLikesLength;
+  }
 
   likeButton.addEventListener('click', (evt) => {
     evt.target.classList.toggle('elements__heart_theme_dark'); 
     if (likeButton.classList.contains('elements__heart_theme_dark')) {
-      likesCount.textContent = likes++; 
-      putLike()
-         
-    } 
-    if (!likeButton.classList.contains('elements__heart_theme_dark')) {
-      likesCount.textContent = likes--;  
-      deleteLike();
-    } 
+      putLike(currentId)
+        .then((result) => {  
+          console.log(result); 
+          likesCount.textContent = likes++; 
+        }) 
+        .catch((err) => {
+          console.error(err);
+        });       
+    } else {
+      deleteLike(currentId)
+      .then((result) => {  
+        console.log(result); 
+        likesCount.textContent = likes--;
+        likesCount.textContent = null;
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+    }
   });
 
   cardImage.addEventListener('click', () => {
@@ -65,14 +80,10 @@ export function addItem(link, name) { // Функция создания кар�
   });
    
   if (cardOwnerId === userMeId) {
-    console.log('СОВПАДЕНИЕ:', 'cardOwnerId -',cardOwnerId, '/// userMeId -',userMeId);
     trashButton.classList.add('elements__trash_active'); 
-    } else {
-      console.error('НЕ МОЯ КАРТОЧКА:', 'cardOwnerId -',cardOwnerId, '/// userMeId -',userMeId)
-    } 
+    }
 
   trashButton.addEventListener('click', () => { 
-    // evt.target.closest('.elements__item').remove();
     itemElement.remove();
     removeCard(currentId)
       .catch((err) => {
@@ -80,52 +91,17 @@ export function addItem(link, name) { // Функция создания кар�
       })
       console.log(cardId) 
   });
-  
-  // itemElement.querySelector('.elements__trash').addEventListener('click', () => { 
-  //   openPopup(surePopup);
-  //   sureClose.addEventListener('click', () => {
-  //     closePopup(surePopup);
-  //   });
-  //   formButtonSure.addEventListener('click', () => {
-  //     cardDeleting(true);
-  //     removeCard()
-  //       .catch((err) => {
-  //         console.error(err);
-  //       })
-  //       .finally(() => formButtonSure.textContent = 'Да')
-  //     itemElement.remove();
-  //     closePopup(surePopup);
-  //   });      
-  // });
   return itemElement;
 };
-
-
-
-
-
-function cardLoading(isLoading) {
-  if (isLoading) {
-    formButtonPlace.textContent = 'Создание...';
-  }
-}
-
-// function cardDeleting(isDeleting) {
-//   if (isDeleting) {
-//     formButtonSure.textContent = 'Удаление...';
-//   }
-// }
 
 // ===================================================================================================
 
 //  E V E N T     L I S T E N E R S     C A R D
 formPlace.addEventListener('submit', function newPlace() {
   cardLoading(true);
-  addCard()
-    .then((result) => {
-      console.log(result);
-      titleInput.value = result.name,
-      sourceInput.value = result.link,
+  addCard(titleInput.value, sourceInput.value)
+    .then((checkResponse) => {
+      console.log(checkResponse);
       elementContainer.prepend(addItem(sourceInput.value, titleInput.value)),
       formPlace.reset();
       closePopup(placePopup);    

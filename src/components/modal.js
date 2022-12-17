@@ -1,5 +1,5 @@
-import { closeByEscape } from './utils.js';
-import { config, editCurrentUser, editCurrentAvatar } from './api.js';
+import { closeByEscape, checkResponse, profileLoading, avatarLoading } from './utils.js';
+import { config, editCurrentUser, editAvatar } from './api.js';
 
 //  V A R I A B L E S     P R O F I L E
 export const profileTitle = document.querySelector('.profile__title');
@@ -51,23 +51,17 @@ export function closePopup(popup) {
 export function submitForm(evt) {
   evt.preventDefault();
   profileLoading(true);
-  editCurrentUser()
-    .then((result) => {
-      console.log(result);
-      profileTitle.textContent = result.name,
-      profileSubtitle.textContent = result.about
+  editCurrentUser(userInput.value, descriptionInput.value)
+    .then((checkResponse) => {
+      console.log(checkResponse);
+      profileTitle.textContent = checkResponse.name,
+      profileSubtitle.textContent = checkResponse.about
       closePopup(profilePopup);
     })
   .catch((err) => {
-    console.error(err); // выводим ошибку в консоль
+    console.error(err);
   })
   .finally(() => formButtonProfile.textContent = 'Сохранить')
-}
-
-function profileLoading(isLoading) {
-  if (isLoading) {
-    formButtonProfile.textContent = 'Сохранение...';
-  }
 }
 
 // ===================================================================================================
@@ -75,22 +69,16 @@ function profileLoading(isLoading) {
 //  F U N C T I O N S     A V A T A R
 export function changeAvatarImg() {
   avatarLoading(true);
-  editCurrentAvatar()
-    .then((result) => {
-      console.log(result);
-      avatarImage.src = result.avatar
+  editAvatar(sourceAvatar.value)
+    .then((checkResponse) => {
+      console.log(checkResponse);
+      avatarImage.src = checkResponse.avatar
       closePopup(avatarPopup);
     })
     .catch((err) => {
-      console.error(err); // выводим ошибку в консоль
+      console.error(err);
     })
     .finally(() => formButtonAvatar.textContent = 'Сохранить')
-}
-
-function avatarLoading(isLoading) {
-  if (isLoading) {
-    formButtonAvatar.textContent = 'Сохранение...';
-  }
 }
 
 // ===================================================================================================
