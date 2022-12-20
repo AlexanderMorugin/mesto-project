@@ -1,5 +1,5 @@
-import { closeByEscape, checkResponse, profileLoading, avatarLoading } from './utils.js';
-import { config, editCurrentUser, editAvatar } from './api.js';
+import { closeByEscape, profileLoading, avatarLoading } from './utils.js';
+import { editCurrentUser, editAvatar } from './api.js';
 
 //  V A R I A B L E S     P R O F I L E
 export const profileTitle = document.querySelector('.profile__title');
@@ -31,7 +31,6 @@ export const avatarPopupClose = document.querySelector('.popup_avatar_close');
 export const formAvatar = document.forms.avatar;
 export const sourceAvatar = formAvatar.elements.srcavatar;
 
-
 // ===================================================================================================
 
 //  F U N C T I O N S     U N I V E R S A L
@@ -48,14 +47,14 @@ export function closePopup(popup) {
 // ===================================================================================================
 
 //  F U N C T I O N S     P R O F I L E
-export function submitForm(evt) {
+export function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileLoading(true);
   editCurrentUser(userInput.value, descriptionInput.value)
-    .then((checkResponse) => {
-      console.log(checkResponse);
-      profileTitle.textContent = checkResponse.name,
-      profileSubtitle.textContent = checkResponse.about
+    .then((userData) => {
+      console.log(userData);
+      profileTitle.textContent = userData.name,
+      profileSubtitle.textContent = userData.about
       closePopup(profilePopup);
     })
   .catch((err) => {
@@ -70,9 +69,10 @@ export function submitForm(evt) {
 export function changeAvatarImg() {
   avatarLoading(true);
   editAvatar(sourceAvatar.value)
-    .then((checkResponse) => {
-      console.log(checkResponse);
-      avatarImage.src = checkResponse.avatar
+    .then((userData) => {
+      console.log(userData);
+      avatarImage.src = userData.avatar;      
+      formAvatar.reset();
       closePopup(avatarPopup);
     })
     .catch((err) => {
@@ -94,7 +94,7 @@ profileClose.addEventListener('click', () => {
   closePopup(profilePopup);
 });
 
-formProfile.addEventListener('submit', submitForm);
+formProfile.addEventListener('submit', handleProfileFormSubmit);
 
 //  E V E N T     L I S T E N E R S     P L A C E
 placeAdd.addEventListener('click', () => {
@@ -125,6 +125,5 @@ avatarPopupClose.addEventListener('click', () => {
 
 formAvatar.addEventListener('submit', () => {
   changeAvatarImg();
-  sourceAvatar.value = '';
 });
   
