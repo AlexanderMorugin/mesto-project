@@ -4,12 +4,21 @@
   font-weight: 500;
   margin: 0;
   padding: 0;
-  grid-area: title; 
+  grid-area: title;
+  /*width: max-content;*/
   min-width: 294px; 
+  /*max-width: 480px; */
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
+/*
+@media screen and (max-width: 1024px) {
+  .profile__title {
+    max-width: 400px;
+  }
+}
+*/
 
 @media screen and (max-width: 768px) {
   .profile__title {

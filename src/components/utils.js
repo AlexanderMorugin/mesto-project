@@ -1,5 +1,5 @@
 import { closePopup, formButtonProfile, formButtonAvatar } from './modal.js';
-import { surePopup, formButtonPlace } from './card.js';
+import { formButtonPlace } from './card.js';
  
 const popups = document.querySelectorAll('.popup');
 
@@ -11,7 +11,7 @@ popups.forEach((popup) => {
         if (evt.target.classList.contains('popup_opened')) {
             closePopup(popup)
         }
-        if (evt.target.classList.contains('popup__close')) {
+        if (evt.target.classList.contains('popup__button-close')) {
           closePopup(popup)
         }
     })

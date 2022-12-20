@@ -7,6 +7,11 @@ export function checkResponse(res) {
   }
 }
 
+export function request(url, options) {
+  // принимает два аргумента: урл и объект опций, как и `fetch`
+  return fetch(url, options).then(checkResponse)
+}
+
 // ===================================================================================================
 
 export const config = {
@@ -91,7 +96,7 @@ export function putLike(cardId) {
     method:'PUT',
     headers: config.headers,
   })
-  // .then(res => checkResponse(res))
+  .then(res => checkResponse(res))
 }
 
 // ===================================================================================================
@@ -102,5 +107,5 @@ export function deleteLike(cardId) {
     method:'DELETE',
     headers: config.headers,
   })
-  // .then(res => checkResponse(res))
+  .then(res => checkResponse(res))
 }
