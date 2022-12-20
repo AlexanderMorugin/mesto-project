@@ -42,43 +42,21 @@ export function addItem(card) { // Функция создания карточ�
     likesCount.textContent = card.likes.length;     
   }
 
-  let likeDataLikesLength;
-
   likeButton.addEventListener('click', (evt) => {
-    if (!likeButton.classList.contains('elements__heart_theme_dark')) { 
+    if (!likeButton.classList.contains('elements__heart_theme_dark')) {  
       putLike(card._id)
-        .then(res => {
-          if (res.ok) {
-            evt.target.classList.toggle('elements__heart_theme_dark');
-            return res.json();
-          } else {
-            return Promise.reject(`Ошибка: ${res.status}`);
-          }
-        })      
         .then((likeData) => { 
-          // console.log(likeData.likes.length); 
-          likeDataLikesLength = likeData.likes.length;
-          if (likeButton.classList.contains('elements__heart_theme_dark')) {
-            likesCount.textContent = likeDataLikesLength++;  
-          }
-        }) 
+          likesCount.textContent = likeData.likes.length  // длина массива - это и есть кол-во лайков
+          evt.target.classList.toggle('elements__heart_theme_dark');
+        })
         .catch((err) => {
           console.error(err);
         })
       } else {
         deleteLike(card._id)
-          .then(res => {
-            if (res.ok) {
-              evt.target.classList.toggle('elements__heart_theme_dark');
-              return res.json();
-            } else {
-              return Promise.reject(`Ошибка: ${res.status}`);
-            }
-          })
           .then((likeData) => {  
-            // console.log(likeData); 
-            likesCount.textContent = likeDataLikesLength--;
-            likesCount.textContent = null;
+            likesCount.textContent = likeData.likes.length  // длина массива - это и есть кол-во лайков
+            evt.target.classList.toggle('elements__heart_theme_dark');
           })
           .catch((err) => {
             console.error(err);
@@ -102,12 +80,10 @@ export function addItem(card) { // Функция создания карточ�
   removeCard(card._id)
     .then(data => {
       itemElement.remove()
-      // console.log(data)
     })    
     .catch((err) => {
       console.error(err);
     })
-      // console.log(card) 
   });
   return itemElement;
 };
