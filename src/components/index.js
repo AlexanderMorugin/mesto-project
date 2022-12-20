@@ -1,16 +1,8 @@
 import '../pages/index.css';
-import { closeByEscape, checkResponse } from './utils.js';
-import { config, changeProfile, getCurrentUser, getInitialCards, removeCard } from './api.js';
-
-import {
-  profileTitle, profileSubtitle, profilePopup, profileEdit, profileClose, nameInput, jobInput, 
-  placePopup, placeAdd, placeClose, addButton, userInput, descriptionInput,
-  imagePopup, imagePopupClose,
-  openPopup, closePopup, submitForm, submitAvatar, formAvatar, changeAvatarImg, avatarImage
-} from './modal.js';
-
-import { elementContainer, templateImage, resetButton, templateTitle, titleInput, sourceInput, itemTemplate, addItem, newPlace } from './card.js';
-import { showError, hideError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation } from './validate.js';
+import { getCurrentUser, getInitialCards } from './api.js';
+import { profileTitle, profileSubtitle, avatarImage } from './modal.js';
+import { elementContainer, addItem } from './card.js';
+import { enableValidation } from './validate.js';
 
 // ===================================================================================================
 
@@ -26,22 +18,25 @@ enableValidation({
 
 
 //  C R E A T E     C A R D S     A T     S T A R T
-export let cardId, userMeId, cardOwnerId, avatar, cardLikesLength; 
+export let userId;
 
-  Promise.all([getInitialCards(checkResponse), getCurrentUser(checkResponse)])
+  Promise.all([getInitialCards(), getCurrentUser()])
     .then(([cards, user]) => { 
-      userMeId = user._id; 
-      console.log(user)
+      userId = user._id; 
+      // console.log(user)
       profileTitle.textContent = user.name;
       profileSubtitle.textContent = user.about;
 
       avatarImage.src = user.avatar;
 
       cards.forEach((card) => {
-        elementContainer.append(addItem(card.link, card.name))
-        cardId = card._id;
-        cardOwnerId = card.owner._id;
-        cardLikesLength = card.likes.length;
+        // elementContainer.append(addItem(card._id, card.owner._id, card.likes.length, card.link, card.name))
+        elementContainer.append(addItem(card))
         console.log(card)
+        // console.log(card.likes.length)
       });
-    });
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+

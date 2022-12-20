@@ -75,33 +75,32 @@ export const getInitialCards = () => {
 // ===================================================================================================
 
 //  F U N C T I O N      D E L E T E     C A R D
-export function removeCard(currentId) {  
-  return fetch(`${config.baseUrl}/cards/${currentId}`, {
+export function removeCard(cardId) {  
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method:'DELETE',
     headers: config.headers,
   })
   .then(res => checkResponse(res))
-  .then(data => console.log(data))
 }
 
 // ===================================================================================================
 
 //  F U N C T I O N      P U T     L I K E
-export function putLike(currentId) {  
-  return fetch(`${config.baseUrl}/cards/likes/${currentId}`, {
+export function putLike(cardId) {  
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method:'PUT',
     headers: config.headers,
   })
-  .then(res => checkResponse(res))
+  // .then(res => checkResponse(res))
 }
 
 // ===================================================================================================
 
 //  F U N C T I O N      D E L E T E      L I K E
-export function deleteLike(currentId) {  
-  return fetch(`${config.baseUrl}/cards/likes/${currentId}`, {
+export function deleteLike(cardId) {  
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method:'DELETE',
     headers: config.headers,
   })
-  .then(res => checkResponse(res))
+  // .then(res => checkResponse(res))
 }

@@ -1,6 +1,6 @@
 //  F O R M S     &     V A L I D A T I O N
 
-const showInputError = (formElement, inputElement, errorMessage, settings) => {  // Ошибка есть - показываем действия
+export const showInputError = (formElement, inputElement, errorMessage, settings) => {  // Ошибка есть - показываем действия
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.add(settings.inputErrorClass);  
@@ -8,7 +8,7 @@ const showInputError = (formElement, inputElement, errorMessage, settings) => { 
   errorElement.classList.add(settings.errorClass);
 }
 
-const hideInputError = (formElement, inputElement, settings) => {  // Ошибки нет - убираем действия
+export const hideInputError = (formElement, inputElement, settings) => {  // Ошибки нет - убираем действия
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
   inputElement.classList.remove(settings.inputErrorClass);
@@ -16,7 +16,7 @@ const hideInputError = (formElement, inputElement, settings) => {  // Ошибк
   errorElement.classList.remove(settings.errorClass);
 }
 
-const isValid = (formElement, inputElement, settings) => {  // Функция проверяет валидность всех полей
+export const isValid = (formElement, inputElement, settings) => {  // Функция проверяет валидность всех полей
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.errorMessage);
   } else {
@@ -30,13 +30,13 @@ const isValid = (formElement, inputElement, settings) => {  // Функция п
   }
 };
 
-const hasInvalidInput = (inputList) => {  // Функция принимает массив полей формы и возвращает true, если в нём хотя бы одно поле не валидно, и false, если все валидны.
+export const hasInvalidInput = (inputList) => {  // Функция принимает массив полей формы и возвращает true, если в нём хотя бы одно поле не валидно, и false, если все валидны.
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
 
-const toggleButtonState = (inputList, buttonElement, settings) => {  // Функция принимает массив полей ввода и элемент кнопки, состояние которой нужно менять
+export const toggleButtonState = (inputList, buttonElement, settings) => {  // Функция принимает массив полей ввода и элемент кнопки, состояние которой нужно менять
   if (hasInvalidInput(inputList)) {
     buttonElement.disabled = true;
     buttonElement.classList.add(settings.inactiveButtonClass);
@@ -46,7 +46,7 @@ const toggleButtonState = (inputList, buttonElement, settings) => {  // Функ
   }
 };
 
-const setEventListeners = (formElement, settings) => {  // Добавление обработчиков всем полям формы
+export const setEventListeners = (formElement, settings) => {  // Добавление обработчиков всем полям формы
   const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
   const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
@@ -58,7 +58,7 @@ const setEventListeners = (formElement, settings) => {  // Добавление 
   });
 };
 
-const enableValidation = (settings) => {
+export const enableValidation = (settings) => {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
   formList.forEach((formElement) => { 
@@ -68,7 +68,3 @@ const enableValidation = (settings) => {
     setEventListeners(formElement, settings);
 }); 
 };
-
-// ===================================================================================================
-
-export { showInputError, hideInputError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation };
