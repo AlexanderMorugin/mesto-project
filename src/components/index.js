@@ -1,6 +1,6 @@
-import '../pages/index.css';
-import { initialCards } from './data.js';
-import { closeByEscape } from './utils.js';
+import {
+  initialCards
+} from './data.js';
 
 import {
   profileTitle, profileSubtitle, profilePopup, profileEdit, profileClose, nameInput, jobInput, 
@@ -15,8 +15,9 @@ import {
 } from './card.js';
 
 
-import { showError, hideError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation } from './validate.js';
-
+import {
+  showError, hideError, checkInputValidity, setEventListeners, hasInvalidInput, toggleButtonState
+} from './validate.js';
 
 
 // ===================================================================================================
@@ -27,11 +28,14 @@ initialCards.forEach((element) => {
 });
 
 //  S T A R T     O F     V A L I D A T I O N
-enableValidation({
-  formSelector: '.form',
-  inputSelector: '.form__input',
-  submitButtonSelector: '.form__button',
-  inactiveButtonClass: 'form__button_disabled',
-  inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active',
-});
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.form'));  
+  formList.forEach((formElement) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+  });
+    setEventListeners(formElement);
+}); 
+};
+
+enableValidation();

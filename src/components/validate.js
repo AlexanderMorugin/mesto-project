@@ -46,29 +46,6 @@ const toggleButtonState = (inputList, buttonElement, settings) => {  // Функ
   }
 };
 
-const setEventListeners = (formElement, settings) => {  // Добавление обработчиков всем полям формы
-  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
-  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
-
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      isValid(formElement, inputElement, settings);
-      toggleButtonState(inputList, buttonElement, settings);
-    });
-  });
-};
-
-const enableValidation = (settings) => {
-  const formList = Array.from(document.querySelectorAll(settings.formSelector));
-
-  formList.forEach((formElement) => { 
-    formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-  });
-    setEventListeners(formElement, settings);
-}); 
-};
-
 // ===================================================================================================
 
-export { showInputError, hideInputError, isValid, setEventListeners, hasInvalidInput, toggleButtonState, enableValidation };
+export { showError, hideError, checkInputValidity, setEventListeners, hasInvalidInput, toggleButtonState };

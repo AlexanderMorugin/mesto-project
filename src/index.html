@@ -36,7 +36,8 @@
   <div class="popup popup_profile_open">
     <div class="popup__container">
       <button type="button" class="popup__button-close popup_profile_close" aria-label="Закрыть диалоговое окно."></button>
-      <form class="form form__profile" name="profile" method="POST" novalidate>
+
+      <form class="form" name="profile" method="POST" novalidate>
         <h2 class="form__heading">Редактировать профиль</h2>  
         <fieldset class="form__input-container">  
 
@@ -44,10 +45,9 @@
             data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы." required minlength="2" maxlength="40">
           <p class="user-input-error form__input-error">Вы пропустили это поле.</p>
 
-          <input id="description-input" class="form__input form__input_type_description" type="text" pattern="^[а-яА-ЯёЁa-zA-Z\s_-]+$" name="description" placeholder="О себе"
+          <input id="description-input" class="form__input form__input_type_description" type="text" pattern="^[а-яА-ЯёЁa-zA-Z\s_-]+$" name="description" placeholder="О себе" value="Исследователь океана"
             data-error-message="Разрешены только латинские буквы, кириллические буквы, знаки дефиса и пробелы." required minlength="2" maxlength="200">
           <p class="description-input-error form__input-error">Вы пропустили это поле.</p>
-
         </fieldset>
         <input type="submit" class="form__button" value="Сохранить">                 
       </form>    
@@ -57,7 +57,8 @@
   <div class="popup popup_place_open">
     <div class="popup__container">
       <button type="button" class="popup__button-close popup_place_close" aria-label="Закрыть диалоговое окно."></button>
-      <form class="form form__place" name="place" method="POST">
+
+      <form class="form" name="place" method="POST">
         <h2 class="form__heading">Новое место</h2>  
         <fieldset class="form__input-container">
           <input id="title-input" class="form__input form__input_type_title" type="text" pattern="^[а-яА-ЯёЁa-zA-Z\s_-]+$" name="title" placeholder="Название" 
